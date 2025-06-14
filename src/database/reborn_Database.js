@@ -1,6 +1,8 @@
 // WARNING: This code includes hardcoded credentials and is NOT secure for production use.
 // It is for demonstration purposes ONLY.
-require("dotenv").config();
+require("dotenv").config({
+	path: require("path").resolve(__dirname, "../../.env"),
+});
 
 const user = process.env.DB_USER;
 const password = process.env.DB_PASSWORD;
@@ -13,7 +15,7 @@ const connection = mysql.createConnection({
 	user: process.env.DB_USER,
 	password: process.env.DB_PASSWORD,
 	database: process.env.DB_NAME,
-	port: process.env.DB_PORT,
+	port: parseInt(process.env.DB_PORT),
 });
 
 connection.connect((error) => {
