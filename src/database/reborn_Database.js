@@ -1,15 +1,15 @@
-// WARNING: This code includes hardcoded credentials and is NOT secure for production use.
-// It is for demonstration purposes ONLY.
-require("dotenv").config({
-	path: require("path").resolve(__dirname, "../../.env"),
+require('dotenv').config({
+	path: require('path').resolve(__dirname, '../env/database.env'),
 });
+console.log('DB_NAME from env:', process.env.DB_NAME);
+console.log('DB_HOST from env:', process.env.DB_HOST);
 
 const user = process.env.DB_USER;
 const password = process.env.DB_PASSWORD;
 
-const mysql = require("mysql2"); // Import the mysql2 package
+const { Client } = require('pg');
 
-const connection = mysql.createConnection({
+const client = new Client({
 	// Create a connection object
 	host: process.env.DB_HOST,
 	user: process.env.DB_USER,
@@ -18,14 +18,12 @@ const connection = mysql.createConnection({
 	port: parseInt(process.env.DB_PORT),
 });
 
-connection.connect((error) => {
-	// Attempt to establish the connection
-	if (error) {
-		console.error("Error connecting to MySQL database:", error); // Log an error if the connection fails
-	} else {
-		console.log("Connected to MySQL database!"); // Log success message if connection is successful
+async function connectToDatabase() {
+	try {
+		await client.connect();
+		console.log('Connected!');
+	} catch (err) {
+		console.error('Error:', err);
 	}
-});
-
-// IMPORTANT: After testing or demonstration, please switch to using environment variables
-// as described in previous responses to keep your credentials secure.
+}
+connectToDatabase();
