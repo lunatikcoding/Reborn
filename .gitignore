@@ -2,5 +2,8 @@ node_modules
 
 database.env
 
-src/env/database.env
-src/env/*.env
+# --- Environment variables ---
+.env
+*.env
+*/env/*.env
+env/

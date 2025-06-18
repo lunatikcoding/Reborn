@@ -1,23 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const workouts = require("../testData.js");
+const userServices = require("../services/userServices");
 
 //reads
-router.get("/", (req, res) => {
-	console.log("Received");
-	res.send(workouts);
+router.get("/api", async (req, res) => {
+	const result = await userServices.testing();
+	res.json(result);
 });
 
-//create a new excersise and adds it in
-router.post("/api/routes", (req, res) => {
-	console.log("Received workout:", req.body);
-	const newWorkout = req.body;
-	workouts.push(newWorkout);
-	res.json(workouts);
-});
-
-router.delete("/api/routes", (req, res) => {
-	workouts.pop();
-	res.json(workouts);
-});
 module.exports = router;
