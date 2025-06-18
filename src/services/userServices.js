@@ -1,4 +1,4 @@
-const { pool } = require("../database/reborn_Database");
+const { pool } = require("../database/reborn_db");
 
 async function testing(userData) {
 	const result = await pool.query(
