@@ -3,8 +3,8 @@ const router = express.Router();
 const userServices = require("../services/userServices");
 
 //reads
-router.get("/api", async (req, res) => {
-	const result = await userServices.testing();
+router.post("/", async (req, res) => {
+	const result = await userServices.userRegistration();
 	res.json(result);
 });
 

@@ -1,14 +1,14 @@
-const { pool } = require("../database/reborn_db");
+const { pool } = require('../database/reborn_db');
 
-async function testing(userData) {
+async function user_registration(userData) {
 	const result = await pool.query(
-		`SELECT * FROM users  
-    VALUES ($1, $2, NOW(), NOW()) 
+		`INSERT INTO user_registration ( email, password,created_at,updated_at) 
+    VALUES ($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) 
     RETURNING *`,
-		[email, password]
+		[userData.email, userData.password]
 	);
 
 	return result.rows[0];
 }
 
-module.exports = { testing };
+module.exports = { user_registration };
