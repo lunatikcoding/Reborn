@@ -1,14 +1,29 @@
-const { pool } = require('../database/reborn_db');
+const UserModel = require("../models/user.model");
 
-async function user_registration(userData) {
-	const result = await pool.query(
-		`INSERT INTO user_registration ( email, password,created_at,updated_at) 
-    VALUES ($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) 
-    RETURNING *`,
-		[userData.email, userData.password]
-	);
+// const bcrypt = require('bcryptjs');
 
-	return result.rows[0];
+async function registerUser(userData) {
+	const { email, password } = userData;
+
+	// RULE #1: Check if user already exists
+	const existingUser = await UserModel.findUserByEmail(email);
+	if (existingUser) {
+		// If so, stop and report the problem
+		const error = new Error("A user with this email already exists.");
+		error.statusCode = 409; // 409 Conflict
+		throw error;
+	}
+
+	// RULE #2: Hash the password (you will add this)
+	// const hashedPassword = await bcrypt.hash(password, 10);
+
+	// If all rules pass, tell the filing clerk to create the user
+	const newUser = await UserModel.createUser({
+		email,
+		password: password, // Later, this will be hashedPassword
+	});
+
+	return newUser;
 }
 
-module.exports = { user_registration };
+module.exports = { registerUser };

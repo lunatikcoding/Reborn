@@ -3,9 +3,6 @@ const router = express.Router();
 const userServices = require("../services/userServices");
 
 //reads
-router.post("/", async (req, res) => {
-	const result = await userServices.userRegistration();
-	res.json(result);
-});
+router.post("/register", userController.registration);
 
 module.exports = router;
