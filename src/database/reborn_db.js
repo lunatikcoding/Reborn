@@ -1,8 +1,8 @@
-require("dotenv").config({
-	path: require("path").resolve(__dirname, "../env/database.env"),
+require('dotenv').config({
+	path: require('path').resolve(__dirname, '../env/database.env'),
 });
 
-const { Pool } = require("pg");
+const { Pool } = require('pg');
 
 const pool = new Pool({
 	// Create a connection object
@@ -17,10 +17,10 @@ const pool = new Pool({
 
 //Test Connection to Database
 
-// async function connectDB() {
-// 	await pool.query("SELECT * FROM users"); // fail fast if creds are wrong
-// 	console.log("✅  PostgreSQL connected");
-// }
+async function connectDB() {
+	await pool.query('SELECT * FROM user_registration'); // fail fast if creds are wrong
+	console.log('✅  PostgreSQL connected');
+}
 
 module.exports = {
 	pool,

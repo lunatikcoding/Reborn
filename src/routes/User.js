@@ -1,8 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const userServices = require("../services/userServices");
+const { Router } = require('express'); // Pull the Router object out of express directly
+const router = Router(); // Call the Router() function
 
-//reads
-router.post("/register", userController.registration);
+const userController = require('../controllers/userController');
+
+router.post('/register', userController.registration);
 
 module.exports = router;

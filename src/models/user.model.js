@@ -1,9 +1,9 @@
-const { pool } = require("../database/reborn_db");
+const { pool } = require('../database/reborn_db');
 
 //  file from the cabinet
 async function findUserByEmail(email) {
 	const result = await pool.query(
-		"SELECT * FROM user_registration WHERE email = $1",
+		'SELECT * FROM user_registration WHERE email = $1',
 		[email]
 	);
 	return result.rows[0];
