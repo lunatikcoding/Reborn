@@ -27,4 +27,27 @@ async function registration(req, res) {
 	}
 }
 
-module.exports = { registration };
+async function userLogin(req, res) {
+	try {
+		const { email, password } = req.body;
+
+		const newLogin = await userService.loginUser({
+			email,
+			password,
+		});
+
+		console.log(req.body);
+	} catch (error) {
+		res
+			.status(error.statusCode || 500)
+			.json({ message: error.message });
+		console.log(error);
+	}
+}
+
+async function userLogOut(req, res) {
+	const logOut = await req.body;
+	res.send('logOut');
+	console.log(login);
+}
+module.exports = { registration, userLogin, userLogOut };

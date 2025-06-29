@@ -3,7 +3,6 @@ const UserModel = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 
 async function registerUser(userData) {
-	console.log(userData);
 	const { email, password } = userData;
 
 	// RULE #1: Check if user already exists
@@ -27,5 +26,17 @@ async function registerUser(userData) {
 
 	return newUser;
 }
+async function loginUser(userData) {
+	const { email, password } = userData;
 
-module.exports = { registerUser };
+	const existingUser = await UserModel.findUserByEmail(email)
+	if(existingUser){
+		console.log("user found")
+	}
+	if(!existingUser){
+		
+	}
+
+}
+
+module.exports = { registerUser, loginUser };
