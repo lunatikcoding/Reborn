@@ -21,7 +21,7 @@ async function registerUser(userData) {
 	// If all rules pass, tell the filing clerk to create the user
 	const newUser = await UserModel.createUser({
 		email,
-		password: hash, // Later, this will be hashedPassword
+		password: hash,
 	});
 
 	return newUser;
@@ -29,14 +29,24 @@ async function registerUser(userData) {
 async function loginUser(userData) {
 	const { email, password } = userData;
 
-	const existingUser = await UserModel.findUserByEmail(email)
-	if(existingUser){
-		console.log("user found")
-	}
-	if(!existingUser){
-		
-	}
+	const existingUser = await UserModel.findUserByEmail(email);
 
+	if (existingUser == null) {
+		const error = new Error('"Invalid credentials"');
+		error.statusCode = 401; // 409 Conflict
+		throw error;
+	} else {
+		const isMatch = await bcrypt.compare(
+			password,
+			existingUser.password
+		);
+		if (!isMatch) {
+			const error = new Error('"Invalid credentials"');
+			error.statusCode = 401; // 409 Conflict
+			throw error;
+		}
+	}
+	return existingUser;
 }
 
 module.exports = { registerUser, loginUser };
