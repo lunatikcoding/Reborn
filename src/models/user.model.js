@@ -1,14 +1,5 @@
 const { pool } = require('../database/reborn_db');
 
-//  file from the cabinet
-async function findUserByEmail(email) {
-	const result = await pool.query(
-		'SELECT * FROM user_registration WHERE email = $1',
-		[email]
-	);
-	return result.rows[0];
-}
-
 // Puts a new file in
 async function createUser(userData) {
 	const { email, password } = userData;
@@ -21,4 +12,12 @@ async function createUser(userData) {
 	return result.rows[0];
 }
 
+// Finds Email
+async function findUserByEmail(email) {
+	const result = await pool.query(
+		'SELECT * FROM user_registration WHERE email = $1',
+		[email]
+	);
+	return result.rows[0];
+}
 module.exports = { findUserByEmail, createUser };

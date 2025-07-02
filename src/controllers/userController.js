@@ -1,25 +1,21 @@
 const userService = require('../services/userServices');
+const generateToken = require('../utils/jwts');
 
 async function registration(req, res) {
-	// Use a try/catch block to handle any problems reported by the specialist
 	try {
-		// Step 1: Get data from the incoming request form
 		const { email, password } = req.body;
 
-		// Step 2: Call the specialist to handle the business process
 		const newUser = await userService.registerUser({
 			email,
 			password,
 		});
 
-		// Step 3: everything went well
 		res.status(201).json({
 			message: 'User registered successfully!',
 			user: newUser,
 		});
 		console.log('Request Body:', req.body);
 	} catch (error) {
-		// Step 4: If the specialist reported a problem, send the "rejection letter"
 		res
 			.status(error.statusCode || 500)
 			.json({ message: error.message });
@@ -31,10 +27,11 @@ async function userLogin(req, res) {
 	try {
 		const { email, password } = req.body;
 
-		const newLogin = await userService.loginUser({
+		const loggedUser = await userServices.loginUser({
 			email,
 			password,
 		});
+		const generateToken = jwtUtils.generateToken(loggedUser);
 
 		console.log(req.body);
 	} catch (error) {

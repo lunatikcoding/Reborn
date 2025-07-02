@@ -1,5 +1,5 @@
-const { Router } = require('express'); // Pull the Router object out of express directly
-const router = Router(); // Call the Router() function
+const { Router } = require('express');
+const router = Router();
 
 const userController = require('../controllers/userController');
 

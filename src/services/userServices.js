@@ -5,11 +5,10 @@ const bcrypt = require('bcryptjs');
 async function registerUser(userData) {
 	const { email, password } = userData;
 
-	// RULE #1: Check if user already exists
+	// Check if user already exists
 	const existingUser = await UserModel.findUserByEmail(email);
 
 	if (existingUser) {
-		// If so, stop and report the problem
 		const error = new Error('A user with this email already exists.');
 		error.statusCode = 409; // 409 Conflict
 		throw error;
@@ -18,7 +17,7 @@ async function registerUser(userData) {
 	console.log('Password received by service:', password);
 	const hash = await bcrypt.hash(password, 10);
 
-	// If all rules pass, tell the filing clerk to create the user
+	// If all rules pass create the user
 	const newUser = await UserModel.createUser({
 		email,
 		password: hash,
@@ -26,6 +25,7 @@ async function registerUser(userData) {
 
 	return newUser;
 }
+
 async function loginUser(userData) {
 	const { email, password } = userData;
 
@@ -33,7 +33,7 @@ async function loginUser(userData) {
 
 	if (existingUser == null) {
 		const error = new Error('"Invalid credentials"');
-		error.statusCode = 401; // 409 Conflict
+		error.statusCode = 401;
 		throw error;
 	} else {
 		const isMatch = await bcrypt.compare(
@@ -42,7 +42,7 @@ async function loginUser(userData) {
 		);
 		if (!isMatch) {
 			const error = new Error('"Invalid credentials"');
-			error.statusCode = 401; // 409 Conflict
+			error.statusCode = 401;
 			throw error;
 		}
 	}
