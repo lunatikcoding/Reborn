@@ -1,5 +1,5 @@
 const userService = require('../services/userServices');
-const generateToken = require('../utils/jwts');
+const tokens = require('../utils/jwts');
 
 async function registration(req, res) {
 	try {
@@ -31,9 +31,11 @@ async function userLogin(req, res) {
 			email,
 			password,
 		});
-		const generateToken = jwtUtils.generateToken(loggedUser);
-
-		console.log(req.body);
+		const userToken = tokens.generateToken(loggedUser);
+		res.status(200).json({
+			message: 'User logged successfully!',
+			user: userToken,
+		});
 	} catch (error) {
 		res
 			.status(error.statusCode || 500)
